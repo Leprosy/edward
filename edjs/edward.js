@@ -18,14 +18,14 @@ Edward.transitions = {
             opacity: 1
         }
     },
-    scale: {
+    slide: {
         outSlide: {
-            //opacity: 0,
-            height: 0
+            left: -2000,
+            opacity: 0
         },
         inSlide: {
-            //opacity: 1,
-            height: '100%'
+            left: 0,
+            opacity: 1
         }
     }
 };
@@ -62,7 +62,8 @@ Edward.init = function(id, newconfig) {
 
     /* Hide and setup listener */
     $.each(Edward.slides, function(a,b) {
-        $(b).attr('id', 'slide-' + a).addClass('slide').hide();
+        $(b).attr('id', 'slide-' + a).addClass('slide')
+            .css('position', 'relative').hide();
     });
     $(window).keydown(function(ev) {
         Edward.keyListener(ev)

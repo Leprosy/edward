@@ -1,0 +1,83 @@
+@import url(http://fonts.googleapis.com/css?family=Crete+Round);
+
+#content {
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 600px;
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+	overflow: auto;
+	width: 200px;
+}
+
+.center .prev {
+	float: left;
+}
+.center .next {
+    float: right;
+}
+
+.slide {
+	font-family: Verdana, sans;
+	border: 1px solid #bbb;
+	background-color: #ddd;
+	padding: 40px;
+	line-height: 1.6;
+	letter-spacing: -1.2px;
+	height: 500px;
+	overflow: hidden;
+
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+.slide h1, .slide h2 {
+	font-family: 'Crete Round', serif;
+	width: 80%;
+	text-align: center;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.slide h1 {
+	font-size: 250%;
+	text-shadow: 2px 2px #fff;
+	margin-bottom: 10px;
+}
+
+.slide h2 {
+	text-shadow: 1px 1px #fff;
+	margin-bottom: 40px;
+}
+
+.slide a {
+	font-weight: bold;
+	text-shadow: 1px 1px #666;
+	color: #fff;
+}
+
+.slide img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.slide .big {
+	font-size: 250%;
+	color: #600;
+}
+
+.slide pre {
+	background-color: #000;
+	color: #090;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
