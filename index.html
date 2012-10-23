@@ -51,7 +51,10 @@
 
         <script>
             $(document).ready(function() {
-                Edward.init('#content');
+                Edward.init('#content', {
+                    timeBetween: 200,
+                    transition: 'scale'
+                });
             })
         </script>
 
