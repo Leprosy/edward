@@ -7,22 +7,41 @@ var Edward = {}
  * @param id    selector for the container element
  */
 Edward.init = function(id) {
-    /* Meta */
+    /* Attributes */
     Edward.container = id;
     Edward.slides = $(id + ' article');
-    Edward.currentSlide = 0;
+    Edward.currentSlideNum = 0;
     Edward.totalSlides = Edward.slides.length;
+
+    Edward.timeBetween = 400;
+    Edward.transition = {
+            outSlide: {
+                opacity: 0
+            }, 
+            inSlide: {
+                ini: {
+                    opacity: 0
+                },
+                end: {
+                    opacity: 1
+                }
+            }
+        };
 
     /* Hide and setup listener */
     $.each(Edward.slides, function(a,b) {
-        $(b).attr('id', 'slide-' + a).hide();
+        $(b).attr('id', 'slide-' + a).addClass('slide').hide();
     });
-    $(Edward.slides[0]).addClass('current');
     $(window).keydown(function(ev) {
         Edward.keyListener(ev)
     });
 
     /* Let's go to the presentation */
+    if (window.location.hash) {
+        Edward.currentSlideNum = window.location.hash.split('#slide-')[1];
+    }
+
+    Edward.currentSlide = $(Edward.slides[Edward.currentSlideNum]).clone();
     Edward.show();
 }
 
@@ -32,16 +51,28 @@ Edward.init = function(id) {
  * @param slideNum    (optional)Number of the slide to show.
  */
 Edward.show = function(slideNum) {
-    $(Edward.container + ' .current')
-            .removeClass('current')
-            .fadeOut(function() { 
+    if (typeof slideNum === 'undefined') {
+        slideNum = Edward.currentSlideNum;
+    }
 
-        if (typeof slideNum === 'undefined') {
-            slideNum = Edward.currentSlide;
+    /* Switch slides using the specified function */
+    Edward.currentSlide.animate(
+        Edward.transition.outSlide, Edward.timeBetween, function() {
+            Edward.currentSlide.remove();
+
+            /* Show next slide */
+            Edward.currentSlide = $(Edward.slides[slideNum])
+                                          .clone()
+                                          .addClass('current');
+            $(Edward.container).prepend(Edward.currentSlide);
+            Edward.currentSlide.show()
+                               .css(Edward.transition.inSlide.ini)
+                               .animate(
+                                        Edward.transition.inSlide.end,
+                                        Edward.timeBetween
+                                );
         }
-    
-        $(Edward.slides[slideNum]).addClass('current').fadeIn();
-    });
+    );
 }
 
 /**
@@ -49,8 +80,8 @@ Edward.show = function(slideNum) {
  * 
  */
 Edward.next = function() {
-    if (Edward.currentSlide <= Edward.totalSlides - 2) { 
-        Edward.currentSlide++;
+    if (Edward.currentSlideNum <= Edward.totalSlides - 2) { 
+        Edward.currentSlideNum++;
         Edward.show();
     }
 }
@@ -60,8 +91,8 @@ Edward.next = function() {
  * 
  */
 Edward.prev = function() {
-    if (Edward.currentSlide > 0) {
-        Edward.currentSlide--;
+    if (Edward.currentSlideNum > 0) {
+        Edward.currentSlideNum--;
         Edward.show();
     }
 }
