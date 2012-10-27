@@ -46,10 +46,9 @@ Edward.init = function(id, newconfig) {
     }
     $.extend(config, newconfig);
 
-    
     Edward.timeBetween = config.timeBetween;
     Edward.transition = Edward.transitions[config.transition];
-        
+
     if (typeof Edward.transition == 'undefined') {
         return Edward.error('invalid_transition_value');
     }
@@ -60,10 +59,11 @@ Edward.init = function(id, newconfig) {
     Edward.currentSlideNum = 0;
     Edward.totalSlides = Edward.slides.length;
 
-    /* Hide and setup listener */
+    /* Setup the slide show, hide and setup listener */
+    $(Edward.container).css('position', 'relative');
     $.each(Edward.slides, function(a,b) {
         $(b).attr('id', 'slide-' + a).addClass('slide')
-            .css('position', 'relative').hide();
+            .css({'position': 'absolute','top': 0}).hide();
     });
     $(window).keydown(function(ev) {
         Edward.keyListener(ev)
@@ -73,8 +73,6 @@ Edward.init = function(id, newconfig) {
     if (window.location.hash) {
         Edward.currentSlideNum = window.location.hash.split('#slide-')[1];
     }
-
-    Edward.currentSlide = $(Edward.slides[Edward.currentSlideNum]).clone();
     Edward.show();
 }
 
@@ -88,30 +86,18 @@ Edward.show = function(slideNum) {
     if (typeof slideNum === 'undefined') {
         slideNum = Edward.currentSlideNum;
     }
+    Edward.currentSlideNum = slideNum;
 
     if (slideNum > Edward.totalSlides - 1 || slideNum < 0 ||
             isNaN(slideNum)) {
         return Edward.error('invalid_slide_number');
     }
 
-    /* Switch slides using the specified function */
-    Edward.currentSlide.animate(
-        Edward.transition.outSlide, Edward.timeBetween, function() {
-            Edward.currentSlide.remove();
+    var previousSlide = $(Edward.container + ' .current');
+    var nextSlide = $(Edward.slides[slideNum]);
 
-            /* Show next slide */
-            Edward.currentSlide = $(Edward.slides[slideNum])
-                                          .clone()
-                                          .addClass('current');
-            $(Edward.container).prepend(Edward.currentSlide);
-            Edward.currentSlide.show()
-                               .css(Edward.transition.outSlide)
-                               .animate(
-                                        Edward.transition.inSlide,
-                                        Edward.timeBetween
-                                );
-        }
-    );
+    previousSlide.removeClass('current').fadeOut();
+    nextSlide.addClass('current').fadeIn();
 }
 
 /**
