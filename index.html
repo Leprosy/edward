@@ -14,58 +14,63 @@
         <div id="content">
 
             <article>
-                <h1>Welcome to <span class="big">edward</span></h1>
+                <h1>Welcome to <span class="big">edward</span>.js</h1>
                 <h2>A simple presentation tool</h2>
-                <section>
-                    <p>* Lorem ipsum dolor sit amet.</p>
-                    <p>* Groucho-a-like derek griffiths sportacus john cleese.</p>
-                </section>
+                <h2>using HTML5, CSS and Javascript</h2>
             </article>
 
             <article>
                 <h1>Slides are written entirely in HTML...</h1>
-                <h2>...and spiced up with CSS and jQuery</h2>
-                <section>
-                    <p>* Lorem ipsum dolor sit amet, consectetur.</p>
-                    <p>* Rock n roll star derek griffiths alpha trion.</p>
-                    <p>* Groucho-a-like derek griffiths sportacus john cleese.</p>
-                    <p>* Rock n roll star derek griffiths alpha trion.</p>
-                </section>
+                <h2>...and spiced up with CSS and JS</h2>
+                <ul>
+                    <li>Your content is plain text, easy to edit and share</li>
+                    <li>Presentation styles are implemented with CSS themes</li>
+                    <li>The edward.js engine manages transitions</li>
+                    <li>Using jQuery we can extend animations and other logic</li>
+                </ul>
             </article>
 
             <article>
-                <h1>HTML tags are supported</h1>
-                <h2>You can add links and img's too</h2>
-                <section>
-                    <p>*Lorem ipsum dolor sit amet aliqua.</p>
-                    <p>*My github in <a href="http://github.com/Leprosy">github.com/Leprosy</a>
-                    <img src="http://www.w3.org/html/logo/downloads/HTML5_Logo_128.png" />
-                    <p>Code block :</p>
+                <h1>Design with freedom</h1>
+                <h2>You can add links and img's too. Even videos.</h2>
+                <ul>
+                    <li>You can use <span style="color: red">styles</span> and <a href="javascript:alert('Hi!')">Javascript</a>. Richer slides!</li>
+                    <li>Links in the content : <a href="http://www.google.com/" target="_blank">www.google.com</a>. Links between <a href="javascript:Edward.show(3)">slides</a> too</li>
+                    <li>Code block :</li>
                     <pre>
 &lt;?php
 require('module.php');
-die('edward rules');
+echo('edward rules!');
+exit();
 ?&gt;
                     </pre>
-                </section>
+                </ul>
             </article>
 
             <article>
-                <h1>another slide</h1>
-                <h2>subtitle 2</h2>
-                <section>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <p>Groucho-a-like derek griffiths sportacus john cleese, rock n roll star derek griffiths alpha trion john cleese sportacus groucho-a-like tudor philosopher sam elliott frightfully nice French café patron inspector clouseau? Groucho-a-like lady magnets ron burgundy, helllloooo brad pitt Leonine Daniel plainview hold steady keyboardist groucho-a-like ron burgundy lady magnets.</p>
-                </section>
+                <h1>Design with freedom</h1>
+                <h2>You can add links and img's too. Even videos.</h2>
+                <ul>
+                    <li>You can have media in your slides :</li>
+                    <img src="https://i.chzbgr.com/completestore/12/10/23/sKpKAfRkdk6kAZx4w8fQLw2.png" />
+                </ul>
             </article>
 
             <article>
-                <h1>my last slide</h1>
-                <h2>3rd subtitle</h2>
-                <section>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <p>Groucho-a-like derek griffiths sportacus john cleese, rock n roll star derek griffiths alpha trion john cleese sportacus groucho-a-like tudor philosopher sam elliott frightfully nice French café patron inspector clouseau? Groucho-a-like lady magnets ron burgundy, helllloooo brad pitt Leonine Daniel plainview hold steady keyboardist groucho-a-like ron burgundy lady magnets. <a href="javascript:Edward.show(0)">Go back to the beginning</a></p>
-                </section>
+                <h1>Extensible</h1>
+                <h2>If you know CSS and JS, you can add your own extensions</h2>
+                <ul>
+                    <li>You can extend transitions</li>
+                    <li>Use CSS to implement themes and styles</li>
+                    <li>API and callbacks(work in progress)</li>
+
+                    <li><a href="javascript:Edward.show(0)">Go back to the beginning</a></li>
+                </ul>
+            </article>
+
+            <article>
+                <h1 style="margin-top: 15%"><span class="big">That's all!</span></</h1>
+                <h2>Get it <a href="http://github.com/Leprosy/edward/">here</a></h2>
             </article>
         </div>
 
@@ -78,7 +83,7 @@ die('edward rules');
             $(document).ready(function() {
                 Edward.init('#content', {
                     timeBetween: 500,
-                    transition: 'fade'
+                    transition: 'slide'
                 });
             })
         </script>

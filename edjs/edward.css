@@ -45,6 +45,8 @@ table {
 }
 
 
+
+
 /* Site */
 html { font-size: 62.5%; }
 body { font-size: 0.6em;}
@@ -71,7 +73,7 @@ body { font-size: 0.6em;}
 	left: 5%;
 	margin-top: 2%;
 	height: 90%;
-	overflow: auto;
+	overflow: hidden;
 }
 
 .center {
@@ -91,6 +93,9 @@ body { font-size: 0.6em;}
 .center .next {
     float: right;
 }
+
+
+
 
 
 /* Theme */
@@ -121,20 +126,39 @@ body { font-size: 0.6em;}
 }
 
 .slide h1 {
+    margin-top: 4%;
 	font-size: 250%;
 	text-shadow: 2px 2px #fff;
 }
 
 .slide h2 {
 	text-shadow: 1px 1px #fff;
-	font-size: 200%;
-	margin-bottom: 40px;
+	font-size: 160%;
+	margin-bottom: 1%;
 }
 
 .slide a {
 	font-weight: bold;
-	text-shadow: 1px 1px #666;
+	text-shadow: 2px 2px 2px #666;
 	color: #fff;
+}
+.slide a:hover {
+    position: relative;
+    top: 2px;
+    left: 2px;
+    text-shadow: none;
+}
+
+.slide ul {
+    margin-top: 5%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.slide li {
+    list-style: disc;
+    margin-bottom: 2%;
 }
 
 .slide img {
@@ -149,8 +173,11 @@ body { font-size: 0.6em;}
 }
 
 .slide pre {
+    font-size: 90%;
+    font-family: Courier, mono;
 	background-color: #000;
 	color: #090;
+	padding-left: 5%;
 
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

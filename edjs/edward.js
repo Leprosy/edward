@@ -12,20 +12,66 @@ var Edward = {}
 Edward.transitions = {
     fade: {
         outSlide: {
-            opacity: 0
+            ini: {
+                opacity: 1
+            },
+            end: {
+                opacity: 0
+            }
         }, 
         inSlide: {
-            opacity: 1
+            ini: {
+                opacity: 0
+            },
+            end: {
+                opacity: 1
+            }
         }
     },
     slide: {
-        outSlide: {
-            left: -2000,
-            opacity: 0
+        left: {
+            outSlide: {
+                ini: {
+                    left: 0,
+                    opacity: 1
+                },
+                end: {
+                    left: 2000,
+                    opacity: 0
+                }
+            },
+            inSlide: {
+                ini: {
+                    left: -2000,
+                    opacity: 0
+                },
+                end: {
+                    left: 0,
+                    opacity: 1
+                }
+            }
         },
-        inSlide: {
-            left: 0,
-            opacity: 1
+        right: {
+            outSlide: {
+                ini: {
+                    left: 0,
+                    opacity: 1
+                },
+                end: {
+                    left: -2000,
+                    opacity: 0
+                }
+            },
+            inSlide: {
+                ini: {
+                    left: 2000,
+                    opacity: 0
+                },
+                end: {
+                    left: 0,
+                    opacity: 1
+                }
+            }
         }
     }
 };
@@ -85,6 +131,15 @@ Edward.show = function(slideNum) {
     if (typeof slideNum === 'undefined') {
         slideNum = Edward.currentSlideNum;
     }
+
+    /* Transition direction */
+    var direction = 'right';
+
+    if (slideNum < Edward.currentSlideNum) {
+        direction = 'left';
+    }
+
+    /* Assign slide number */
     Edward.currentSlideNum = slideNum;
 
     if (slideNum > Edward.totalSlides - 1 || slideNum < 0 ||
@@ -92,16 +147,32 @@ Edward.show = function(slideNum) {
         return Edward.error('invalid_slide_number');
     }
 
+    /* Asign slides and do the animation */
     var previousSlide = $(Edward.container + ' .current');
     var nextSlide = $(Edward.slides[slideNum]);
+    var outSlide, inSlide;
 
-    previousSlide.removeClass('current').animate(Edward.transition.outSlide,
-                                                 Edward.timeBetween,
-                                                 function() {
-                                                    this.hide();
-                                                 });
-    nextSlide.addClass('current').show().animate(Edward.transition.inSlide,
-                                                 Edward.timeBetween);
+    try {
+        if (Edward.transition.hasOwnProperty(direction)) {
+            outSlide = Edward.transition[direction].outSlide;
+            inSlide = Edward.transition[direction].inSlide;
+        } else {
+            outSlide = Edward.transition.outSlide;
+            inSlide = Edward.transition.inSlide;
+        }
+
+        previousSlide.removeClass('current')
+                     .css(outSlide.ini)
+                     .animate(outSlide.end,
+                              Edward.timeBetween);
+
+        nextSlide.addClass('current')
+                 .css(inSlide.ini)
+                 .show()
+                 .animate(inSlide.end, Edward.timeBetween);
+    } catch(e) {
+        return Edward.error('transition_def_error');
+    }
 }
 
 /**
@@ -110,8 +181,7 @@ Edward.show = function(slideNum) {
  */
 Edward.next = function() {
     if (Edward.currentSlideNum <= Edward.totalSlides - 2) { 
-        Edward.currentSlideNum++;
-        Edward.show();
+        Edward.show(Edward.currentSlideNum + 1);
     }
 }
 
@@ -121,8 +191,7 @@ Edward.next = function() {
  */
 Edward.prev = function() {
     if (Edward.currentSlideNum > 0) {
-        Edward.currentSlideNum--;
-        Edward.show();
+        Edward.show(Edward.currentSlideNum - 1);
     }
 }
 
