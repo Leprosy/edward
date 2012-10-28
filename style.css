@@ -1,0 +1,185 @@
+@import url(http://fonts.googleapis.com/css?family=Crete+Round);
+/*Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
+
+/* Site */
+html { font-size: 62.5%; }
+body { font-size: 0.6em;}
+
+@media (max-width: 300px) {
+    html { font-size: 70%; }
+}
+
+@media (min-width: 500px) {
+    html { font-size: 80%; }
+}
+
+@media (min-width: 700px) {
+    html { font-size: 120%; }
+}
+
+@media (min-width: 1200px) {
+    html { font-size: 200%; }
+}
+
+#content {
+    position: absolute;
+	width: 90%;
+	left: 5%;
+	margin-top: 2%;
+	height: 90%;
+	overflow: hidden;
+}
+
+.center {
+    position: absolute;
+    font-family: Arial, sans;
+    text-align: center;
+	overflow: auto;
+	width: 25%;
+	left: 37.5%;
+	height: 20px;
+	bottom: 3%;
+}
+
+.center .prev {
+	float: left;
+}
+.center .next {
+    float: right;
+}
+
+
+
+
+
+/* Theme */
+.slide {
+	font-family: Verdana, sans;
+	font-size: 150%;
+	border: 1px solid #bbb;
+	background-color: #ddd;
+	line-height: 1.6;
+	letter-spacing: -1.2px;
+	height: 99%;
+	width: 99%;
+	overflow: hidden;
+
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+.slide h1, .slide h2 {
+	font-family: 'Crete Round', serif;
+	font-weight: bold;
+	width: 80%;
+	text-align: center;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.slide h1 {
+    margin-top: 4%;
+	font-size: 250%;
+	text-shadow: 2px 2px #fff;
+}
+
+.slide h2 {
+	text-shadow: 1px 1px #fff;
+	font-size: 160%;
+	margin-bottom: 1%;
+}
+
+.slide a {
+	font-weight: bold;
+	text-shadow: 2px 2px 2px #666;
+	color: #fff;
+}
+.slide a:hover {
+    position: relative;
+    top: 2px;
+    left: 2px;
+    text-shadow: none;
+}
+
+.slide ul {
+    margin-top: 5%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.slide li {
+    list-style: disc;
+    margin-bottom: 2%;
+}
+
+.slide img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.slide .big {
+	font-size: 250%;
+	color: #600;
+}
+
+.slide pre {
+    font-size: 90%;
+    font-family: Courier, mono;
+	background-color: #000;
+	color: #090;
+	padding-left: 5%;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
