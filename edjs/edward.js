@@ -60,7 +60,6 @@ Edward.init = function(id, newconfig) {
     Edward.totalSlides = Edward.slides.length;
 
     /* Setup the slide show, hide and setup listener */
-    $(Edward.container).css('position', 'relative');
     $.each(Edward.slides, function(a,b) {
         $(b).attr('id', 'slide-' + a).addClass('slide')
             .css({'position': 'absolute','top': 0}).hide();
@@ -96,8 +95,13 @@ Edward.show = function(slideNum) {
     var previousSlide = $(Edward.container + ' .current');
     var nextSlide = $(Edward.slides[slideNum]);
 
-    previousSlide.removeClass('current').fadeOut();
-    nextSlide.addClass('current').fadeIn();
+    previousSlide.removeClass('current').animate(Edward.transition.outSlide,
+                                                 Edward.timeBetween,
+                                                 function() {
+                                                    this.hide();
+                                                 });
+    nextSlide.addClass('current').show().animate(Edward.transition.inSlide,
+                                                 Edward.timeBetween);
 }
 
 /**
