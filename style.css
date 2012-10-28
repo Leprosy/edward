@@ -115,7 +115,7 @@ body { font-size: 0.6em;}
 	border-radius: 15px;
 }
 
-.slide h1, .slide h2, .slide h3 {
+.slide h1, .slide h2 {
 	font-family: 'Crete Round', serif;
 	font-weight: bold;
 	width: 80%;
@@ -135,10 +135,6 @@ body { font-size: 0.6em;}
 	text-shadow: 1px 1px #fff;
 	font-size: 160%;
 	margin-bottom: 1%;
-}
-
-.slide h3 {
-    font-size: 90%;
 }
 
 .slide a {
