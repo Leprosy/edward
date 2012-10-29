@@ -1,5 +1,7 @@
 /**
- *  Welcome to edward, a simple presentation tool
+ * edward.js - v0.5
+ *
+ * Welcome to edward, a simple presentation tool
  *  
  *  Btw, Edward is the name of my cat daughter (@ed_minina on twitter)
  *  named after the Cowboy Bebop character... :)
