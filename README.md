@@ -22,7 +22,7 @@ where '#container' is a jQuery selector of your presentation container DOM eleme
 API
 ---
 
-* Edward.init(*container*, *options*)
+* Edward.init( *container* , *options*)
 
   Initializes the engine. *container* is a jQuery selector of the presentation container DOM object. *options* is a
 hash of parameters for the presentations, currently these are supported:
@@ -40,6 +40,6 @@ hash of parameters for the presentations, currently these are supported:
 
   Shows the previous slide.
 
-* Edward.show(*number*)
+* Edward.show( *number* )
 
   Show the requested slide.
