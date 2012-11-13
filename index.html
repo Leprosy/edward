@@ -32,6 +32,29 @@
             </article>
 
             <article>
+                <h1>Slides are written entirely in HTML...</h1>
+                <h2>...and spiced up with CSS and JS</h2>
+                <ul class="edward_stepContent">
+                    <li>Your can have steps into the slides too</li>
+                    <li>Only add a class to your lists</li>
+                    <li>The edward.js engine manages transitions</li>
+                    <li>And do the animations</li>
+                </ul>
+            </article>
+
+            <article onShow="surprise('showing slide')"
+                     onHide="surprise('hiding slide')">
+                <h1>Callbacks</h1>
+                <h2>Events and hooks in slides</h2>
+                <ul class="edward_step">
+                    <li>Your can have steps into the slides too</li>
+                    <li>Only add a class to your lists</li>
+                    <li>The edward.js engine manages transitions</li>
+                    <li>And do the animations</li>
+                </ul>
+            </article>
+
+            <article>
                 <h1>Design with freedom</h1>
                 <h2>You can add links and img's too. Even videos.</h2>
                 <ul>
@@ -87,6 +110,11 @@ exit();
                     transition: 'slide'
                 });
             })
+
+            function surprise(str) {
+                alert(str);
+                console.log(str);
+            }
         </script>
 
 	</body>

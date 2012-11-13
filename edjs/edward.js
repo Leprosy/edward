@@ -2,13 +2,13 @@
  * edward.js - v0.5
  *
  * Welcome to edward, a simple presentation tool
- *  
+ *
  *  Btw, Edward is the name of my cat daughter (@ed_minina on twitter)
  *  named after the Cowboy Bebop character... :)
  */
 
 /* Namespace */
-var Edward = {}
+var Edward = {};
 
 /* Attributes */
 Edward.transitions = {
@@ -20,7 +20,7 @@ Edward.transitions = {
             end: {
                 opacity: 0
             }
-        }, 
+        },
         inSlide: {
             ini: {
                 opacity: 0
@@ -83,15 +83,15 @@ Edward.transitions = {
 
 /**
  * Initializing method.
- * 
- * @param id    selector for the container element
+ *
+ * @param id    selector for the container element.
  */
 Edward.init = function(id, newconfig) {
     /* Config */
     config = {
         timeBetween: 400,
         transition: 'fade'
-    }
+    };
     $.extend(config, newconfig);
 
     Edward.timeBetween = config.timeBetween;
@@ -110,10 +110,10 @@ Edward.init = function(id, newconfig) {
     /* Setup the slide show, hide and setup listener */
     $.each(Edward.slides, function(a,b) {
         $(b).attr('id', 'slide-' + a).addClass('slide')
-            .css({'position': 'absolute','top': 0}).hide();
+            .css({'position': 'absolute', 'top': 0}).hide();
     });
     $(window).keydown(function(ev) {
-        Edward.keyListener(ev)
+        Edward.keyListener(ev);
     });
 
     /* Let's go to the presentation */
@@ -121,11 +121,11 @@ Edward.init = function(id, newconfig) {
         Edward.currentSlideNum = window.location.hash.split('#slide-')[1];
     }
     Edward.show();
-}
+};
 
 /**
  * Shows the selected slide.
- * 
+ *
  * @param slideNum    (optional)Number of the slide to show.
  */
 Edward.show = function(slideNum) {
@@ -154,6 +154,7 @@ Edward.show = function(slideNum) {
     var nextSlide = $(Edward.slides[slideNum]);
     var outSlide, inSlide;
 
+    /* Do transition */
     try {
         if (Edward.transition.hasOwnProperty(direction)) {
             outSlide = Edward.transition[direction].outSlide;
@@ -161,6 +162,11 @@ Edward.show = function(slideNum) {
         } else {
             outSlide = Edward.transition.outSlide;
             inSlide = Edward.transition.inSlide;
+        }
+
+        /* Hook for onHide event*/
+        if (previousSlide.attr('onHide')) {
+            eval(previousSlide.attr('onHide'));
         }
 
         previousSlide.removeClass('current')
@@ -171,40 +177,45 @@ Edward.show = function(slideNum) {
         nextSlide.addClass('current')
                  .css(inSlide.ini)
                  .show()
-                 .animate(inSlide.end, Edward.timeBetween);
-    } catch(e) {
+                 .animate(inSlide.end, Edward.timeBetween, function() {
+                     /* Hook for onShow event*/
+                     if (nextSlide.attr('onShow')) {
+                         eval(nextSlide.attr('onShow'));
+                     }
+                 });
+    } catch (e) {
         return Edward.error('transition_def_error');
     }
-}
+};
 
 /**
  * Show next slide
- * 
+ *
  */
 Edward.next = function() {
-    if (Edward.currentSlideNum <= Edward.totalSlides - 2) { 
+    if (Edward.currentSlideNum <= Edward.totalSlides - 2) {
         Edward.show(Edward.currentSlideNum + 1);
     }
-}
+};
 
 /**
  * Show previous slide
- * 
+ *
  */
 Edward.prev = function() {
     if (Edward.currentSlideNum > 0) {
         Edward.show(Edward.currentSlideNum - 1);
     }
-}
+};
 
 /**
  * Listener method for the key shortcuts
- * 
- * @param ev    Event object
+ *
+ * @param ev    Event object.
  */
 Edward.keyListener = function(ev) {
     /* Get the key pressed and do the action */
-    switch(ev.which) {
+    switch (ev.which) {
         case 37:
             Edward.prev();
             break;
@@ -214,15 +225,15 @@ Edward.keyListener = function(ev) {
         default:
             break;
     }
-}
+};
 
 /**
  * Error management
  *
- * @param msg   Error message for the debug console
+ * @param msg   Error message for the debug console.
  */
 Edward.error = function(msg) {
     console.error("Edward says : 'Prrrrrmeow..." + msg + "'");
     return false;
-}
+};
 
