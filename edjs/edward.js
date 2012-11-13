@@ -11,6 +11,14 @@
 var Edward = {};
 
 /* Attributes */
+/**
+ * Edward.transitions
+ *
+ * Container of the various transitions of edward.js slides. ini and end are
+ * objects representing the initial and final state of css attributes of the
+ * slide. outSlide and inSlide refers to the outgoing slide and the entering
+ * slide in every transition.
+ */
 Edward.transitions = {
     fade: {
         outSlide: {
@@ -84,7 +92,10 @@ Edward.transitions = {
 /**
  * Initializing method.
  *
- * @param id    selector for the container element.
+ * @param {string} id            selector for the container element.
+ * @param {object} newconfig     object containing parameters.
+ *
+ * @return {boolean} false       if a problem occurs when initializing.
  */
 Edward.init = function(id, newconfig) {
     /* Config */
@@ -108,7 +119,7 @@ Edward.init = function(id, newconfig) {
     Edward.totalSlides = Edward.slides.length;
 
     /* Setup the slide show, hide and setup listener */
-    $.each(Edward.slides, function(a,b) {
+    $.each(Edward.slides, function(a, b) {
         $(b).attr('id', 'slide-' + a).addClass('slide')
             .css({'position': 'absolute', 'top': 0}).hide();
     });
@@ -120,13 +131,16 @@ Edward.init = function(id, newconfig) {
     if (window.location.hash) {
         Edward.currentSlideNum = window.location.hash.split('#slide-')[1];
     }
+
     Edward.show();
 };
 
 /**
  * Shows the selected slide.
  *
- * @param slideNum    (optional)Number of the slide to show.
+ * @param {int} slideNum    (optional)Number of the slide to show.
+ *
+ * @return {boolean} false       if a problem occurs when changing slides.
  */
 Edward.show = function(slideNum) {
     /* Check valid requested slideNum */
@@ -211,7 +225,7 @@ Edward.prev = function() {
 /**
  * Listener method for the key shortcuts
  *
- * @param ev    Event object.
+ * @param {object} ev    Event object.
  */
 Edward.keyListener = function(ev) {
     /* Get the key pressed and do the action */
@@ -230,7 +244,9 @@ Edward.keyListener = function(ev) {
 /**
  * Error management
  *
- * @param msg   Error message for the debug console.
+ * @param {string} msg   Error message for the debug console.
+ *
+ * @return {boolean} false       returns false for error management.
  */
 Edward.error = function(msg) {
     console.error("Edward says : 'Prrrrrmeow..." + msg + "'");
