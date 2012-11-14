@@ -122,10 +122,25 @@ Edward.init = function(id, newconfig) {
 
     /* Setup the slide show, hide and setup listener */
     $('html').css('overflow', 'hidden');
+    wrap = $('<div id="edward_wrap"></div>');
+    wrap.append(Edward.slides);
+    $(Edward.container).append(wrap);
+
+    $('#edward_wrap').css({
+        'position': 'absolute',
+        'width': $(Edward.container).css('width'),
+        'height': $(Edward.container).css('height') /*,
+        'top': $(Edward.container).offset().top + 'px',
+        'left': $(Edward.container).offset().left + 'px'*/
+    });
+    
 
     $.each(Edward.slides, function(a, b) {
         $(b).attr('id', 'slide-' + a)
-            .css({'position': 'absolute', 'width': '80%'}).hide();
+            .css({
+                'position': 'absolute',
+                'height': '100%',
+                'width': '100%'}).hide();
     });
     $(window).keydown(function(ev) {
         Edward.keyListener(ev);

@@ -74,19 +74,20 @@ body {
 }
 
 #content {
-	width: 90%;
+	width: 1000px;
+	height: 550px;
 	margin-top: 2%;
 	margin-left: auto;
 	margin-right: auto;
-	overflow: auto;
 }
 
 #content article {
 	background-color: #A5C8D1;
 	margin-bottom: 2%;
-	height: 60%;
 	padding: 4% 2%;
 	box-shadow: 2px 2px 10px #000;
+	margin-left: auto;
+	margin-right: auto;
 
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
