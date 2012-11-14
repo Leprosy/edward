@@ -121,7 +121,7 @@ Edward.init = function(id, newconfig) {
 
     /* Setup the slide show, hide and setup listener */
     $.each(Edward.slides, function(a, b) {
-        $(b).attr('id', 'slide-' + a).addClass('slide')
+        $(b).attr('id', 'slide-' + a)
             .css({'position': 'absolute', 'top': 0}).hide();
     });
     $(window).keydown(function(ev) {
