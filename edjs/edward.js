@@ -118,11 +118,14 @@ Edward.init = function(id, newconfig) {
     Edward.currentSlideNum = 0;
     Edward.totalSlides = Edward.slides.length;
     Edward.steps = false;
+    Edward.inTransit = false;
 
     /* Setup the slide show, hide and setup listener */
+    $('html').css('overflow', 'hidden');
+
     $.each(Edward.slides, function(a, b) {
         $(b).attr('id', 'slide-' + a)
-            .css({'position': 'absolute', 'top': 0}).hide();
+            .css({'position': 'absolute', 'width': '80%'}).hide();
     });
     $(window).keydown(function(ev) {
         Edward.keyListener(ev);
@@ -211,6 +214,9 @@ Edward.show = function(slideNum) {
                      if (nextSlide.attr('onShow')) {
                          eval(nextSlide.attr('onShow'));
                      }
+
+                     /* End animation */
+                     Edward.inTransit = false;
                  });
     } catch (e) {
         return Edward.error('transition_def_error');
@@ -222,9 +228,16 @@ Edward.show = function(slideNum) {
  *
  */
 Edward.next = function() {
+    if (Edward.inTransit) {
+        return;
+    } else {
+        Edward.inTransit = true;
+    }
+
     /* Is there any steps left? */
     if (Edward.steps) {
         $(Edward.steps[0]).fadeIn(function() {
+            Edward.inTransit = false;
             Edward.steps.splice(0, 1);
 
             if (Edward.steps.length == 0) {
@@ -244,6 +257,12 @@ Edward.next = function() {
  *
  */
 Edward.prev = function() {
+    if (Edward.inTransit) {
+        return;
+    } else {
+        Edward.inTransit = true;
+    }
+
     Edward.steps = false;
 
     if (Edward.currentSlideNum > 0) {
