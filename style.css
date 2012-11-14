@@ -73,6 +73,9 @@ body {
     html { font-size: 200%; }
 }
 
+/*
+ * The main container div must provide the dimensions of the slides
+ */
 #content {
 	width: 1000px;
 	height: 550px;
@@ -81,6 +84,9 @@ body {
 	margin-right: auto;
 }
 
+/*
+ * The general slide styling. Font sizes, colors and what not... 
+ */
 #content article {
 	background-color: #A5C8D1;
 	margin-bottom: 2%;

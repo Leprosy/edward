@@ -129,11 +129,8 @@ Edward.init = function(id, newconfig) {
     $('#edward_wrap').css({
         'position': 'absolute',
         'width': $(Edward.container).css('width'),
-        'height': $(Edward.container).css('height') /*,
-        'top': $(Edward.container).offset().top + 'px',
-        'left': $(Edward.container).offset().left + 'px'*/
+        'height': $(Edward.container).css('height')
     });
-    
 
     $.each(Edward.slides, function(a, b) {
         $(b).attr('id', 'slide-' + a)
@@ -245,12 +242,11 @@ Edward.show = function(slideNum) {
 Edward.next = function() {
     if (Edward.inTransit) {
         return;
-    } else {
-        Edward.inTransit = true;
     }
 
     /* Is there any steps left? */
     if (Edward.steps) {
+        Edward.inTransit = true;
         $(Edward.steps[0]).fadeIn(function() {
             Edward.inTransit = false;
             Edward.steps.splice(0, 1);
@@ -262,6 +258,7 @@ Edward.next = function() {
         });
     } else {
         if (Edward.currentSlideNum <= Edward.totalSlides - 2) {
+            Edward.inTransit = true;
             Edward.show(Edward.currentSlideNum + 1);
         }
     }
@@ -274,13 +271,12 @@ Edward.next = function() {
 Edward.prev = function() {
     if (Edward.inTransit) {
         return;
-    } else {
-        Edward.inTransit = true;
     }
 
     Edward.steps = false;
 
     if (Edward.currentSlideNum > 0) {
+        Edward.inTransit = true;
         Edward.show(Edward.currentSlideNum - 1);
     }
 };
