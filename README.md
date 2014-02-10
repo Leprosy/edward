@@ -9,40 +9,34 @@ Install and usage
 
 Get the source, edward.js, and include it in your html file. The source code of index.html is a good example to see how
 the library is included and the slides content is implemented. You can see style.css for theming ideas. The basics are,
-you must have a container element, and inside that, one or more <article> tags, containing the slides of your presentation.
-You can style the presentation with css, but keep in mind that the dimensions of the slides are contrained by the container
-element. Again, see the demo HTML for reference.
+you must have a container element, and inside that, one or more child elements, usually block tags(ie: articles, divs), with the content of the slides of your presentation.
+
+You can style the presentation with css, but keep in mind that the dimensions of the slides are contrained by the container element. Again, see the demo HTML for reference.
 
 Once your markup is ready, the presentation is initialized with the call
 
 ```javascript
-Edward.init('#container')
+var slideshow = new Edward('#container')
 ```
 
 where '#container' is a jQuery selector of your presentation container DOM element.
 
+With the current version of the library, you can manage more than one presentation. Clicking a presentation makes it the current "active" one, and the keyboard events will affect that slideshow.
 
 API
 ---
 
-* Edward.init( *container* , *options*)
+An Edward object has the following methods:
 
-  Initializes the engine. *container* is a jQuery selector of the presentation container DOM object. *options* is a
-hash of parameters for the presentations, currently these are supported:
+* .show(n) 
 
-  * timeBetween : Time between slides transitions, in miliseconds.
-  * transition : The style of transition. Can be 'slide' or 'fade'.
+  Shows the n-th slide, if that slide exists.
 
-  The options by default are timeBetween 500 and transition 'fade'.
-
-* Edward.next()
+* .next()
 
   Advance to the next slide.
 
-* Edward.previous()
+* .previous()
 
   Shows the previous slide.
 
-* Edward.show( *number* )
-
-  Show the requested slide.
