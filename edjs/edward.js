@@ -85,6 +85,8 @@ Edward.prototype.setActive = function() {
     Edward.active = this;
 };
 
+
+
 /* Transitions */
 Edward.prototype.transitions = {};
 
@@ -141,6 +143,8 @@ Edward.prototype.transitions.slide = function(data) {
     });
 };
 
+
+/* Statics */
 Edward.active = '';
 Edward.keyListener = function(ev) {
     /* Get the key pressed and do the action */
@@ -155,7 +159,6 @@ Edward.keyListener = function(ev) {
             break;
     }
 };
-
 window.onkeydown = function(ev) {
     if (Edward.active) {
         Edward.keyListener(ev);
