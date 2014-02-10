@@ -39,7 +39,7 @@ hash of parameters for the presentations, currently these are supported:
 
   Advance to the next slide.
 
-* Edward.prev()
+* Edward.previous()
 
   Shows the previous slide.
 

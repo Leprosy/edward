@@ -25,15 +25,15 @@
     </head>
 
     <body>
-        <div id="content">
+<div id="content">
 
-            <article>
+            <article data-time="1200" data-transition="slide">
                 <h1>Welcome to <span class="big">edward</span>.js</h1>
                 <h2>A simple presentation tool<br />using HTML5, CSS and Javascript</h2>
                 <h3><< Use your arrow keys to continue >></h3>
             </article>
 
-            <article>
+            <article data-transition="crossfade">
                 <h1>Slides are written entirely in HTML...</h1>
                 <h2>...and spiced up with CSS and JS</h2>
                 <ul>
@@ -44,7 +44,7 @@
                 </ul>
             </article>
 
-            <article>
+            <article data-time="500" data-transition="slide">
                 <h1>Slides are written entirely in HTML...</h1>
                 <h2>...and spiced up with CSS and JS</h2>
                 <ul steps="true">
@@ -55,8 +55,8 @@
                 </ul>
             </article>
 
-            <article onShow="surprise('showing slide')"
-                     onHide="surprise('hiding slide')">
+            <article data-onshow="surprise('showing slide')"
+                     data-onhide="surprise('hiding slide')" data-transition="fade">
                 <h1>Callbacks</h1>
                 <h2>Events and hooks in slides</h2>
 
@@ -66,7 +66,7 @@
                 </ul>
             </article>
 
-            <article>
+            <article data-transition="slide">
                 <h1>Design with freedom</h1>
                 <h2>You can add links and img's too. Even videos.</h2>
                 <ul>
@@ -83,7 +83,7 @@ exit();
                 </ul>
             </article>
 
-            <article>
+            <article data-transition="crossfade">
                 <h1>Design with freedom</h1>
                 <h2>You can add links and img's too. Even videos.</h2>
                 <ul steps="true">
@@ -92,7 +92,7 @@ exit();
                 </ul>
             </article>
 
-            <article>
+            <article data-transition="slide">
                 <h1>Extensible</h1>
                 <h2>If you know CSS and JS, you can add your own extensions</h2>
                 <ul steps="true">
@@ -104,24 +104,34 @@ exit();
                 </ul>
             </article>
 
-            <article>
+            <article data-transition="fade">
                 <h1 style="margin-top: 5%"><span class="big">That's all!</span></</h1>
                 <h2>Get it <a href="http://github.com/Leprosy/edward/">here</a></h2>
             </article>
         </div>
 
+
         <div class="center">
-            <a class="prev" href="javascript:Edward.prev()"><< Previous</a>
-            <a class="next" href="javascript:Edward.next()">Next >></a>
+            <a class="prev" href="javascript:Edward.active.previous()"><< Previous</a>
+            <a class="next" href="javascript:Edward.active.next()">Next >></a>
+        </div>
+
+        <div id="content-foo">
+            <article data-transition="slide">
+                <h1>This is another slideshow</h1>
+            </article>
+
+            <article data-transition="slide">
+                <h2>...and it's independent of the first one</h2>
+            </article>
         </div>
 
         <script>
+            var S;
             $(document).ready(function() {
-                Edward.init('#content', {
-                    timeBetween: 500,
-                    transition: 'slide'
-                });
-            })
+                T = new Edward('#content-foo');
+                S = new Edward('#content');
+            });
 
             function surprise(str) {
                 alert(str);
@@ -130,7 +140,7 @@ exit();
         </script>
 
         <a href="https://github.com/Leprosy/edward">
-            <img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub">
+            <img style="position: fixed; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub">
         </a>
 	</body>
 </html>

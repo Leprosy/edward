@@ -1,314 +1,164 @@
 /**
- * edward.js - v0.5
+ * edward.js - v0.9
  *
  * Welcome to edward, a simple presentation tool
  *
- *  Btw, Edward is the name of my cat daughter (@ed_minina on twitter)
- *  named after the Cowboy Bebop character... :)
+ *  Btw, edward.js is the named after my cat daughter Edward (@ed_minina on twitter)
+ *  who in turn was named after the Cowboy Bebop character... :)
  */
 
-/* Namespace */
-var Edward = {};
-
-/* Attributes */
-/**
- * Edward.transitions
- *
- * Container of the various transitions of edward.js slides. ini and end are
- * objects representing the initial and final state of css attributes of the
- * slide. outSlide and inSlide refers to the outgoing slide and the entering
- * slide in every transition.
- */
-Edward.transitions = {
-    fade: {
-        outSlide: {
-            ini: {
-                opacity: 1
-            },
-            end: {
-                opacity: 0
-            }
-        },
-        inSlide: {
-            ini: {
-                opacity: 0
-            },
-            end: {
-                opacity: 1
-            }
-        }
-    },
-    slide: {
-        left: {
-            outSlide: {
-                ini: {
-                    left: 0,
-                    opacity: 1
-                },
-                end: {
-                    left: 2000,
-                    opacity: 0
-                }
-            },
-            inSlide: {
-                ini: {
-                    left: -2000,
-                    opacity: 0
-                },
-                end: {
-                    left: 0,
-                    opacity: 1
-                }
-            }
-        },
-        right: {
-            outSlide: {
-                ini: {
-                    left: 0,
-                    opacity: 1
-                },
-                end: {
-                    left: -2000,
-                    opacity: 0
-                }
-            },
-            inSlide: {
-                ini: {
-                    left: 2000,
-                    opacity: 0
-                },
-                end: {
-                    left: 0,
-                    opacity: 1
-                }
-            }
-        }
+var Edward = function(id) {
+    /* Check */
+    if (!$(id).length) {
+        return this.error('Container not found');
     }
+    if ($(id).children().length == 0) {
+        return this.error('No slides found');
+    }
+
+    /* Namespace attributes */
+    this.container = id;
+    this.currentSlide = 1;
+    this.totalSlides = $(id).children().length;
+
+    /* Initial setup */
+    $(id).css({overflow: 'hidden', position: 'relative' });
+    $(id).children().css({ position: 'absolute' }).hide();
+
+    /* Clicking the slideshow make it the active one */
+    var _this = this;
+
+    $(id).on('click', function() {
+        Edward.active = _this;
+    });
+
+    /* Activate this and show the first slide */
+    Edward.active = this;
+    this.show(1);
 };
 
+Edward.prototype.show = function(slideNum) {
+    /* Limits */
+    if (slideNum < 1 || slideNum > this.totalSlides) {
+        return this.error('Invalid slide number, ' + slideNum);
+    }
 
-/* Methods */
+    /* Prepare transition data */
+    var data = {};
+    data.direction  = this.currentSlide > slideNum ? -1 : 1;
+    data.prevSlide = $(this.container).children(':visible');
+    data.newSlide  = $($(this.container).children()[slideNum - 1]);
+    data.time = data.newSlide.attr('data-time') ? data.newSlide.attr('data-time') * 1 : 800;
+    data.transition = data.newSlide.attr('data-transition') || 'simple';
+    data.slideShow = this;
+    data.callback = data.newSlide.attr('data-onshow') || false;
 
-/**
- * Initializing method.
- *
- * @param {string} id            selector for the container element.
- * @param {object} newconfig     object containing parameters.
- *
- * @return {boolean} false       if a problem occurs when initializing.
- */
-Edward.init = function(id, newconfig) {
-    /* Config */
-    config = {
-        timeBetween: 400,
-        transition: 'fade'
+    /* Hook for the onHide event */
+    if (data.prevSlide.attr('data-onhide')) {
+        eval(data.prevSlide.attr('data-onhide'));
     };
-    $.extend(config, newconfig);
-
-    Edward.timeBetween = config.timeBetween;
-    Edward.transition = Edward.transitions[config.transition];
-
-    if (typeof Edward.transition == 'undefined') {
-        return Edward.error('invalid_transition_value');
-    }
-
-    /* Attributes */
-    Edward.container = id;
-    Edward.slides = $(id + ' article');
-    Edward.currentSlideNum = 0;
-    Edward.totalSlides = Edward.slides.length;
-    Edward.steps = false;
-    Edward.inTransit = false;
-
-    /* Setup the slide show, hide and setup listener */
-    $('html').css('overflow', 'hidden');
-    wrap = $('<div id="edward_wrap"></div>');
-    wrap.append(Edward.slides);
-    $(Edward.container).append(wrap);
-
-    $('#edward_wrap').css({
-        'position': 'absolute',
-        'width': $(Edward.container).css('width'),
-        'height': $(Edward.container).css('height')
-    });
-
-    $.each(Edward.slides, function(a, b) {
-        $(b).attr('id', 'slide-' + a)
-            .css({
-                'position': 'absolute',
-                'height': '100%',
-                'width': '100%'}).hide();
-    });
-    $(window).keydown(function(ev) {
-        Edward.keyListener(ev);
-    });
-
-    /* Let's go to the presentation */
-    if (window.location.hash) {
-        Edward.currentSlideNum = window.location.hash.split('#slide-')[1];
-    }
-
-    Edward.show();
-};
-
-/**
- * Shows the selected slide.
- *
- * @param {int} slideNum    (optional)Number of the slide to show.
- *
- * @return {boolean} false       if a problem occurs when changing slides.
- */
-Edward.show = function(slideNum) {
-    /* Check valid requested slideNum */
-    if (typeof slideNum === 'undefined') {
-        slideNum = Edward.currentSlideNum;
-    }
-
-    /* Transition direction */
-    var direction = 'right';
-
-    if (slideNum < Edward.currentSlideNum) {
-        direction = 'left';
-    }
-
-    /* Assign slide number */
-    Edward.currentSlideNum = slideNum;
-
-    if (slideNum > Edward.totalSlides - 1 || slideNum < 0 ||
-            isNaN(slideNum)) {
-        return Edward.error('invalid_slide_number');
-    }
-
-    /* Asign slides and do the animation */
-    var previousSlide = $(Edward.container + ' .current');
-    var nextSlide = $(Edward.slides[slideNum]);
-    var outSlide, inSlide;
 
     /* Do transition */
-    try {
-        if (Edward.transition.hasOwnProperty(direction)) {
-            outSlide = Edward.transition[direction].outSlide;
-            inSlide = Edward.transition[direction].inSlide;
-        } else {
-            outSlide = Edward.transition.outSlide;
-            inSlide = Edward.transition.inSlide;
-        }
+    data.transitions = (typeof this.transitions[data.transition] == 'function') ? data.transition : 'simple';
+    this.transitions[data.transition](data);
+    this.currentSlide = slideNum;
+};
 
-        /* Hook for onHide event*/
-        if (previousSlide.attr('onHide')) {
-            eval(previousSlide.attr('onHide'));
-        }
-
-        /* Animate outslide */
-        previousSlide.removeClass('current')
-                     .css(outSlide.ini)
-                     .animate(outSlide.end,
-                              Edward.timeBetween);
-
-        nextSlide.addClass('current');
-
-        /* Is there any steps in the slide? */
-        steps = $('.current [steps*="true"]').children();
-
-        if (steps.length > 0) {
-            for (i = 0; i < steps.length; i++) {
-                $(steps[i]).hide();
-            }
-
-            Edward.steps = steps;
-        }
-
-        /* Animate inslide */
-        nextSlide.css(inSlide.ini)
-                 .show()
-                 .animate(inSlide.end, Edward.timeBetween, function() {
-                     /* Hook for onShow event*/
-                     if (nextSlide.attr('onShow')) {
-                         eval(nextSlide.attr('onShow'));
-                     }
-
-                     /* End animation */
-                     Edward.inTransit = false;
-                 });
-    } catch (e) {
-        return Edward.error('transition_def_error');
+Edward.prototype.next = function() {
+    if (this.currentSlide < this.totalSlides) {
+        this.show(this.currentSlide + 1);
     }
 };
 
-/**
- * Show next slide
- *
- */
-Edward.next = function() {
-    if (Edward.inTransit) {
-        return;
+Edward.prototype.previous = function() {
+    if (this.currentSlide > 1) {
+        this.show(this.currentSlide - 1);
     }
+};
 
-    /* Is there any steps left? */
-    if (Edward.steps) {
-        Edward.inTransit = true;
-        $(Edward.steps[0]).fadeIn(function() {
-            Edward.inTransit = false;
-            Edward.steps.splice(0, 1);
+Edward.prototype.error = function(msg) {
+    throw "edward.js error - " + msg;
+    return false;
+};
 
-            if (Edward.steps.length == 0) {
-                Edward.steps = false;
-            }
+Edward.prototype.setActive = function() {
+    Edward.active = this;
+};
 
+/* Transitions */
+Edward.prototype.transitions = {};
+
+Edward.prototype.transitions.simple = function(data) {
+    data.prevSlide.hide();
+    data.newSlide.show();
+
+    if (data.callback) {
+        eval(data.callback);
+    }
+};
+
+Edward.prototype.transitions.crossfade = function(data) {
+    data.prevSlide.fadeOut(data.time);
+    data.newSlide.fadeIn(data.time);
+
+    if (data.callback) {
+        eval(data.callback);
+    }
+};
+
+Edward.prototype.transitions.fade = function(data) {
+    if (data.prevSlide.length) {
+        data.prevSlide.fadeOut(data.time, function() {
+            data.newSlide.fadeIn(data.time, function() {
+                if (data.callback) {
+                    eval(data.callback);
+                }
+            });
         });
     } else {
-        if (Edward.currentSlideNum <= Edward.totalSlides - 2) {
-            Edward.inTransit = true;
-            Edward.show(Edward.currentSlideNum + 1);
+        data.newSlide.fadeIn(data.time, function() {
+            if (data.callback) {
+                eval(data.callback);
+            }
+        });
+    }
+};
+
+Edward.prototype.transitions.slide = function(data) {
+    var w = $(data.slideShow.container).width();
+
+    data.prevSlide.animate({ left: (-data.direction * w) + 'px' }, data.time, function() {
+        data.prevSlide.css({ left: 0 });
+        data.prevSlide.hide();
+    });
+
+    data.newSlide.css({ left: (data.direction * w) + 'px', top: 0 });
+    data.newSlide.show();
+    data.newSlide.animate({ left: 0 }, data.time, function() {
+        if (data.callback) {
+            eval(data.callback);
         }
-    }
+    });
 };
 
-/**
- * Show previous slide
- *
- */
-Edward.prev = function() {
-    if (Edward.inTransit) {
-        return;
-    }
-
-    Edward.steps = false;
-
-    if (Edward.currentSlideNum > 0) {
-        Edward.inTransit = true;
-        Edward.show(Edward.currentSlideNum - 1);
-    }
-};
-
-/**
- * Listener method for the key shortcuts
- *
- * @param {object} ev    Event object.
- */
+Edward.active = '';
 Edward.keyListener = function(ev) {
     /* Get the key pressed and do the action */
     switch (ev.which) {
         case 37:
-            Edward.prev();
+            Edward.active.previous();
             break;
         case 39:
-            Edward.next();
+            Edward.active.next();
             break;
         default:
             break;
     }
 };
 
-/**
- * Error management
- *
- * @param {string} msg   Error message for the debug console.
- *
- * @return {boolean} false       returns false for error management.
- */
-Edward.error = function(msg) {
-    console.error("Edward says : 'Prrrrrmeow..." + msg + "'");
-    return false;
+window.onkeydown = function(ev) {
+    if (Edward.active) {
+        Edward.keyListener(ev);
+    }
 };
 

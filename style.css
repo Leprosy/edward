@@ -48,16 +48,13 @@ table {
 
 
 /* Site */
-html {
-	font-size: 62.5%;
-}
 body {
-	font-size: 0.9em;
+	font-size: 1.2em;
 	background-image: url(img/pattern.png);
 	font-family: Economica, Arial, sans;
 }
 
-@media (max-width: 300px) {
+/* @media (max-width: 300px) {
     html { font-size: 70%; }
 }
 
@@ -71,23 +68,49 @@ body {
 
 @media (min-width: 1200px) {
     html { font-size: 200%; }
-}
+} */
 
-/*
- * The main container div must provide the dimensions of the slides
- */
+/* The main container div must provide the dimensions of the slides */
 #content {
 	width: 1000px;
 	height: 550px;
 	margin-top: 2%;
 	margin-left: auto;
 	margin-right: auto;
+	border: 1px solid #000;
+	background-color: #fff;
+}
+
+/* Then you provide style to the slides */
+#content article {
+    background-color: #ccc;
+    padding: 2%;
+    width: 80%;
+    margin-left: 8%;
+    margin-top: 2%;
+}
+
+#content-foo {
+	width: 1000px;
+	height: 550px;
+	margin-top: 2%;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #000;
+	background-color: #fff;
+}
+#content-foo article {
+    background-color: #ccc;
+    padding: 2%;
+    width: 80%;
+    margin-left: 8%;
+    margin-top: 2%;
 }
 
 /*
  * The general slide styling. Font sizes, colors and what not... 
  */
-#content article {
+/* #content article {
 	background-color: #A5C8D1;
 	margin-bottom: 2%;
 	padding: 4% 2%;
@@ -184,4 +207,4 @@ body {
 
 .center .next {
     float: right;
-}
+} */
