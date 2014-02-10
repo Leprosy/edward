@@ -97,7 +97,7 @@ body {
 #content h1, #content h2, #content h3 {
     font-family: 'Crete Round', serif;
     font-weight: bold;
-    /* width: 80%; */
+    width: 80%;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
