@@ -20,6 +20,7 @@ var Edward = function(id) {
     this.container = id;
     this.currentSlide = 1;
     this.totalSlides = $(id).children().length;
+    this.inTransit = false;
 
     /* Initial setup */
     $(id).css({overflow: 'hidden', position: 'relative' });
@@ -38,6 +39,13 @@ var Edward = function(id) {
 };
 
 Edward.prototype.show = function(slideNum) {
+    /* In transit HQ? */
+    if (this.inTransit) {
+        return false;
+    } else {
+        this.inTransit = true;
+    }
+
     /* Limits */
     if (slideNum < 1 || slideNum > this.totalSlides) {
         return this.error('Invalid slide number, ' + slideNum);
@@ -51,7 +59,6 @@ Edward.prototype.show = function(slideNum) {
     data.time = data.newSlide.attr('data-time') ? data.newSlide.attr('data-time') * 1 : 800;
     data.transition = data.newSlide.attr('data-transition') || 'simple';
     data.slideShow = this;
-    data.callback = data.newSlide.attr('data-onshow') || false;
 
     /* Hook for the onHide event */
     if (data.prevSlide.attr('data-onhide')) {
@@ -59,8 +66,8 @@ Edward.prototype.show = function(slideNum) {
     };
 
     /* Do transition */
-    data.transitions = (typeof this.transitions[data.transition] == 'function') ? data.transition : 'simple';
-    this.transitions[data.transition](data);
+    data.transitions = (typeof Edward.transitions[data.transition] == 'function') ? data.transition : 'simple';
+    Edward.transitions[data.transition](data);
     this.currentSlide = slideNum;
 };
 
@@ -85,12 +92,25 @@ Edward.prototype.setActive = function() {
     Edward.active = this;
 };
 
+Edward.prototype.endTransition = function() {
+    /* End transition */
+    alert('done')
+    this.inTransit = false;
+
+    /* Hook for the onshow event */
+    var callback = $($(this.container).children()[this.currentSlide - 1]).attr('data-onshow');
+
+    if (callback) {
+        eval(callback);
+    }
+};
 
 
+/* Statics */
 /* Transitions */
-Edward.prototype.transitions = {};
+Edward.transitions = {};
 
-Edward.prototype.transitions.simple = function(data) {
+Edward.transitions.simple = function(data) {
     data.prevSlide.hide();
     data.newSlide.show();
 
@@ -99,34 +119,27 @@ Edward.prototype.transitions.simple = function(data) {
     }
 };
 
-Edward.prototype.transitions.crossfade = function(data) {
+Edward.transitions.crossfade = function(data) {
     data.prevSlide.fadeOut(data.time);
     data.newSlide.fadeIn(data.time);
-
-    if (data.callback) {
-        eval(data.callback);
-    }
+    data.slideShow.endTransition();
 };
 
-Edward.prototype.transitions.fade = function(data) {
+Edward.transitions.fade = function(data) {
     if (data.prevSlide.length) {
         data.prevSlide.fadeOut(data.time, function() {
             data.newSlide.fadeIn(data.time, function() {
-                if (data.callback) {
-                    eval(data.callback);
-                }
+                data.slideShow.endTransition();
             });
         });
     } else {
         data.newSlide.fadeIn(data.time, function() {
-            if (data.callback) {
-                eval(data.callback);
-            }
+            data.slideShow.endTransition();
         });
     }
 };
 
-Edward.prototype.transitions.slide = function(data) {
+Edward.transitions.slide = function(data) {
     var w = $(data.slideShow.container).width();
 
     data.prevSlide.animate({ left: (-data.direction * w) + 'px' }, data.time, function() {
@@ -137,15 +150,12 @@ Edward.prototype.transitions.slide = function(data) {
     data.newSlide.css({ left: (data.direction * w) + 'px', top: 0 });
     data.newSlide.show();
     data.newSlide.animate({ left: 0 }, data.time, function() {
-        if (data.callback) {
-            eval(data.callback);
-        }
+        data.slideShow.endTransition();
     });
 };
 
-
-/* Statics */
 Edward.active = '';
+
 Edward.keyListener = function(ev) {
     /* Get the key pressed and do the action */
     switch (ev.which) {
@@ -159,9 +169,9 @@ Edward.keyListener = function(ev) {
             break;
     }
 };
+
 window.onkeydown = function(ev) {
     if (Edward.active) {
         Edward.keyListener(ev);
     }
 };
-
