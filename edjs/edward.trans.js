@@ -14,7 +14,7 @@
  * This marks the transition as over within the engine, and also calls the onshow
  * callback(if specified in the slide markup).
  * 
- * The plugin can be stored in any js file, but make sure Edward library is already lodaded.
+ * The plugin can be stored in any js file, but make sure edward.js library is already lodaded.
  */
 Edward.transitions.insertcard = function(data) {
     var h = $(data.slideShow.container).height();
