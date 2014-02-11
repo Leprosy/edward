@@ -11,7 +11,7 @@ Get the source, edward.js, and include it along with jQuery in your html file. T
 the library is included and the slides content is implemented. You can see style.css for theming ideas. The basics are,
 you must have a container element, and inside that, one or more child elements, usually block tags(ie: articles, divs), with the content of the slides of your presentation.
 
-You can style the presentation with css, but keep in mind that the dimensions of the slides are contrained by the container element. Again, see the demo HTML for reference.
+You can style the presentation with css, but keep in mind the container element dimensions. Again, see the demo HTML for reference.
 
 Once your markup is ready, the presentation is initialized with the call
 
