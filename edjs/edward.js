@@ -146,7 +146,7 @@ Edward.transitions.slide = function(data) {
         data.prevSlide.hide();
     });
 
-    data.newSlide.css({ left: (data.direction * w) + 'px', top: 0 });
+    data.newSlide.css({ left: (data.direction * w) + 'px' });
     data.newSlide.show();
     data.newSlide.animate({ left: 0 }, data.time, function() {
         data.slideShow.endTransition();
