@@ -21,6 +21,7 @@ var Edward = function(id) {
     this.currentSlide = 1;
     this.totalSlides = $(id).children().length;
     this.inTransit = false;
+    this.steps = false;
 
     /* Initial DOM setup */
     $(id).css({overflow: 'hidden', position: 'relative' });
@@ -58,6 +59,14 @@ Edward.prototype.show = function(slideNum) {
     data.transition = data.newSlide.attr('data-transition');
     data.slideShow = this;
 
+    /* Steps? */
+    var steps = data.newSlide.find('[data-steps*="true"]');
+
+    if (steps.length > 0) {
+        steps.children().hide();
+        this.steps = steps;
+    }
+
     /* Hook for the onHide event */
     if (data.prevSlide.attr('data-onhide')) {
         eval(data.prevSlide.attr('data-onhide'));
@@ -70,8 +79,17 @@ Edward.prototype.show = function(slideNum) {
 };
 
 Edward.prototype.next = function() {
-    if (this.currentSlide < this.totalSlides) {
-        this.show(this.currentSlide + 1);
+    /* Is there any steps left? */
+    if (this.steps) {
+        S.steps.find(':hidden:first').fadeIn();
+
+        if (S.steps.find(':hidden').length == 0) {
+            S.steps = false;
+        }
+    } else {
+        if (this.currentSlide < this.totalSlides) {
+            this.show(this.currentSlide + 1);
+        }
     }
 };
 
