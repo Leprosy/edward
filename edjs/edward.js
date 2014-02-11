@@ -54,7 +54,7 @@ Edward.prototype.show = function(slideNum) {
     data.direction  = this.currentSlide > slideNum ? -1 : 1;
     data.prevSlide = $(this.container).children(':visible');
     data.newSlide  = $($(this.container).children()[slideNum - 1]);
-    data.time = data.newSlide.attr('data-time') ? data.newSlide.attr('data-time') * 1 : 800;
+    data.time = data.newSlide.attr('data-time') ? data.newSlide.attr('data-time') * 0.5 : 500;
     data.transition = data.newSlide.attr('data-transition');
     data.slideShow = this;
 
