@@ -67,7 +67,7 @@
             </article> -->
 
             <article data-onshow="surprise('Callback : showing slide')"
-                     data-onhide="surprise('Callback : hiding slide')" data-transition="simple" data-time="80">
+                     data-onhide="surprise('Callback : hiding slide')" data-transition="fade" data-time="80">
                 <h1>Callbacks</h1>
                 <h2>Events and hooks in slides</h2>
 
@@ -117,35 +117,53 @@ exit();
             </article>
         </div>
 
-
         <div class="center">
             <a class="prev" href="javascript:S.previous()"><< Previous</a>
             <a class="next" href="javascript:S.next()">Next >></a>
         </div>
 
-        <div id="other">
-            <div id="content-2">
-                <article data-transition="fade" data-time="500">
-                    <h1>This is another slideshow</h1>
-                </article>
-    
-                <article data-transition="slide">
-                    <h2>...and it's independent of the first one</h2>
-                </article>
+        <div class="other">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+
+        <div class="other">
+            <div class="left-col">
+                <div id="content-2">
+                    <article data-transition="fade" data-time="500">
+                        <h1>This is another slideshow</h1>
+                    </article>
+        
+                    <article data-transition="slide">
+                        <h2>...and it's independent of the first one</h2>
+                    </article>
+                </div>
+
+                <div class="center">
+                    <a class="prev" href="javascript:S2.previous()"><< Previous</a>
+                    <a class="next" href="javascript:S2.next()">Next >></a>
+                </div>
             </div>
-    
-            <div id="content-3">
-                <article data-transition="fade" data-time="560">
-                    <h1>Yet another slideshow...</h1>
-                </article>
-    
-                <article data-transition="slide">
-                    <h2>...and it's also independent :)</h2>
-                </article>
+
+            <div class="right-col">
+                <div id="content-3">
+                    <article data-transition="fade" data-time="560">
+                        <h1>Yet another slideshow...</h1>
+                    </article>
+        
+                    <article data-transition="slide">
+                        <h2>...and it's also independent :)</h2>
+                    </article>
+                </div>
+
+                <div class="center">
+                    <a class="prev" href="javascript:S3.previous()"><< Previous</a>
+                    <a class="next" href="javascript:S3.next()">Next >></a>
+                </div>
             </div>
         </div>
 
-        <div id="info">Hola que tal</div>
+        <div id="info"></div>
 
         <script>
             var S;

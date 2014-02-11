@@ -29,9 +29,7 @@ var Edward = function(id) {
     /* Clicking the slideshow make it the active one */
     var _this = this;
     $(id).unbind('click');
-    $(id).on('click', function() {
-        Edward.active = _this;
-    });
+    $(id).on('click', function() { _this.setActive(); });
 
     /* Activate this slideshow and show the first slide */
     Edward.active = this;
@@ -90,6 +88,10 @@ Edward.prototype.error = function(msg) {
 
 Edward.prototype.setActive = function() {
     Edward.active = this;
+    var ct = this.container;
+    $(ct).animate({ opacity: 0.9 }, 100, function() {
+        $(ct).animate({ opacity: 1 }, 100);
+    });
 };
 
 Edward.prototype.endTransition = function() {

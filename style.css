@@ -161,6 +161,7 @@ body {
 }
 
 .center {
+    clear: both;
 	width: 30%;
 	text-align: center;
 	margin-left: auto;
@@ -176,21 +177,26 @@ body {
 }
 
 /* Independent slideshows */
-#other {
+.other {
     margin-top: 2%;
-    width: 800px;
+    width: 1000px;
     margin-left: auto;
     margin-right: auto;
 }
+.left-col {
+    width: 50%;
+    float: left;
+}
+.right-col {
+    width: 50%;
+    float: right;
+}
+
 #content-2, #content-3 {
     width: 300px;
     height: 120px;
-}
-#content-2 {
-    float: left;
-}
-#content-3 {
-    float: right;
+    margin-left: auto;
+    margin-right: auto;
 }
 #content-2 article, #content-3 article {
     height: 80px;
