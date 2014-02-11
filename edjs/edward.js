@@ -32,7 +32,7 @@ var Edward = function(id) {
     $(id).on('click', function() { _this.setActive(); });
 
     /* Activate this slideshow and show the first slide */
-    Edward.active = this;
+    this.setActive();
     this.show(this.currentSlide);
 };
 
@@ -87,11 +87,19 @@ Edward.prototype.error = function(msg) {
 };
 
 Edward.prototype.setActive = function() {
+    /* Set active in the namespace */
     Edward.active = this;
+
+    /* Feedback */
     var ct = this.container;
     $(ct).animate({ opacity: 0.9 }, 100, function() {
         $(ct).animate({ opacity: 1 }, 100);
     });
+
+    /* Attach new listener */
+    window.onkeydown = function(ev) {
+        Edward.keyListener(ev);
+    };
 };
 
 Edward.prototype.endTransition = function() {
@@ -153,7 +161,7 @@ Edward.transitions.slide = function(data) {
     });
 };
 
-Edward.active = '';
+Edward.active = false;
 
 Edward.keyListener = function(ev) {
     /* Get the key pressed and do the action */
@@ -166,11 +174,5 @@ Edward.keyListener = function(ev) {
             break;
         default:
             break;
-    }
-};
-
-window.onkeydown = function(ev) {
-    if (Edward.active) {
-        Edward.keyListener(ev);
     }
 };
