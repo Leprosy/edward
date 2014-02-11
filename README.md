@@ -7,7 +7,7 @@ Presentation tool written in Javascript. Uses jQuery for the javascript main cod
 Install and usage
 -----------------
 
-Get the source, edward.js, and include it in your html file. The source code of index.html is a good example to see how
+Get the source, edward.js, and include it along with jQuery in your html file. The source code of index.html is a good example to see how
 the library is included and the slides content is implemented. You can see style.css for theming ideas. The basics are,
 you must have a container element, and inside that, one or more child elements, usually block tags(ie: articles, divs), with the content of the slides of your presentation.
 
