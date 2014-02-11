@@ -71,7 +71,7 @@ body {
 } */
 
 /* The main container div must provide the dimensions of the slides */
-#content, #content-foo {
+#content {
 	width: 1000px;
 	height: 500px;
 	margin-top: 2%;
@@ -80,7 +80,7 @@ body {
 }
 
 /* Then you provide style to the slides */
-#content article, #content-foo article {
+#content article, #content-2 article, #content-3 article {
 	background-color: #A5C8D1;
 	padding: 4%;
     width: 80%;
@@ -161,7 +161,7 @@ body {
 }
 
 .center {
-	width: 50%;
+	width: 30%;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
@@ -175,3 +175,36 @@ body {
     float: right;
 }
 
+/* Independent slideshows */
+#other {
+    margin-top: 2%;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#content-2, #content-3 {
+    width: 300px;
+    height: 120px;
+}
+#content-2 {
+    float: left;
+}
+#content-3 {
+    float: right;
+}
+#content-2 article, #content-3 article {
+    height: 80px;
+}
+
+/* Notification */
+#info {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #fff;
+    color: #000;
+    padding: 20px;
+    box-shadow: 0 5px 30px #000;
+    border: 2px solid #aaa;
+}

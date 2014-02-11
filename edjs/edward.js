@@ -22,20 +22,20 @@ var Edward = function(id) {
     this.totalSlides = $(id).children().length;
     this.inTransit = false;
 
-    /* Initial setup */
+    /* Initial DOM setup */
     $(id).css({overflow: 'hidden', position: 'relative' });
     $(id).children().css({ position: 'absolute' }).hide();
 
     /* Clicking the slideshow make it the active one */
     var _this = this;
-
+    $(id).unbind('click');
     $(id).on('click', function() {
         Edward.active = _this;
     });
 
-    /* Activate this and show the first slide */
+    /* Activate this slideshow and show the first slide */
     Edward.active = this;
-    this.show(1);
+    this.show(this.currentSlide);
 };
 
 Edward.prototype.show = function(slideNum) {
@@ -57,7 +57,7 @@ Edward.prototype.show = function(slideNum) {
     data.prevSlide = $(this.container).children(':visible');
     data.newSlide  = $($(this.container).children()[slideNum - 1]);
     data.time = data.newSlide.attr('data-time') ? data.newSlide.attr('data-time') * 1 : 800;
-    data.transition = data.newSlide.attr('data-transition') || 'simple';
+    data.transition = data.newSlide.attr('data-transition');
     data.slideShow = this;
 
     /* Hook for the onHide event */
@@ -66,9 +66,9 @@ Edward.prototype.show = function(slideNum) {
     };
 
     /* Do transition */
-    data.transitions = (typeof Edward.transitions[data.transition] == 'function') ? data.transition : 'simple';
-    Edward.transitions[data.transition](data);
     this.currentSlide = slideNum;
+    data.transition = (typeof Edward.transitions[data.transition] == 'function') ? data.transition : 'simple';
+    Edward.transitions[data.transition](data);
 };
 
 Edward.prototype.next = function() {
@@ -94,7 +94,6 @@ Edward.prototype.setActive = function() {
 
 Edward.prototype.endTransition = function() {
     /* End transition */
-    alert('done')
     this.inTransit = false;
 
     /* Hook for the onshow event */
@@ -113,16 +112,14 @@ Edward.transitions = {};
 Edward.transitions.simple = function(data) {
     data.prevSlide.hide();
     data.newSlide.show();
-
-    if (data.callback) {
-        eval(data.callback);
-    }
+    data.slideShow.endTransition();
 };
 
 Edward.transitions.crossfade = function(data) {
     data.prevSlide.fadeOut(data.time);
-    data.newSlide.fadeIn(data.time);
-    data.slideShow.endTransition();
+    data.newSlide.fadeIn(data.time, function() {
+        data.slideShow.endTransition();
+    });
 };
 
 Edward.transitions.fade = function(data) {
