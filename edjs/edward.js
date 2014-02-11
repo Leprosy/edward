@@ -81,10 +81,10 @@ Edward.prototype.show = function(slideNum) {
 Edward.prototype.next = function() {
     /* Is there any steps left? */
     if (this.steps) {
-        S.steps.find(':hidden:first').fadeIn();
+        this.steps.find(':hidden:first').fadeIn();
 
-        if (S.steps.find(':hidden').length == 0) {
-            S.steps = false;
+        if (this.steps.find(':hidden').length == 0) {
+            this.steps = false;
         }
     } else {
         if (this.currentSlide < this.totalSlides) {
@@ -94,6 +94,10 @@ Edward.prototype.next = function() {
 };
 
 Edward.prototype.previous = function() {
+    if (this.steps) {
+        this.steps = false;
+    }
+
     if (this.currentSlide > 1) {
         this.show(this.currentSlide - 1);
     }
