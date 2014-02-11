@@ -7,9 +7,19 @@ Presentation tool written in Javascript. Uses **jQuery** for the javascript main
 Install and usage
 -----------------
 
-Get the source, edward.js, and include it along with jQuery in your html file. The source code of index.html is a good example to see how the library is included and the slides content is implemented. You can see style.css for theming ideas. The basics are, you must have a container element, and inside that, one or more child elements, usually block tags(ie: articles, divs), with the content of the slides of your presentation.
+Get the source, edward.js, and include it along with jQuery in your html file. The source code of index.html is a good example to see how the library is included and the slides content is implemented. The basics are, you must have a container element, and inside that, one or more child elements, usually block tags(ie: articles, divs), with the content of the slides of your presentation.
 
-You can style the presentation with css, but keep in mind the container element dimensions. Again, see the demo HTML for reference.
+You can style the presentation with CSS of course. Keep in mind the container element dimensions, as the animations for the transitions are contained inside. Again, see the demo HTML for reference.
+
+Every child element can have `data` attributes that can change the behavior of the "slide" they represent. Currently there are four tags supported:
+
+* `data-transition` : the style of the transition used to show that slide. Default is `simple`
+
+* `data-time` : The time duration of the transition in milliseconds. Defaults to `800`
+
+* `data-onshow` : Specify code that is executed when the slide is finished it's transition and is displayed fully
+
+* `data-onhide` : Specify code that is executed just when the slide is beggining to hide
 
 Once your markup is ready, the presentation is initialized with the call
 
