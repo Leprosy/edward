@@ -6,7 +6,7 @@
  * 
  * data.newSlide - a jQuery collection representing the slide being shown
  * data.prevSlide - a jQuery collection representing the slide being hide(if any)
- * data.time - the time duration of the effect
+ * data.time - the time duration of the effect of each slide. The time between 2 slides is 2 * data.time
  * data.slideShow - the Edward object representing the global slideshow.
  * 
  * The logic can use jQuery and simple javascript methods to fiddle around with

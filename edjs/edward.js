@@ -137,6 +137,9 @@ Edward.prototype.endTransition = function() {
 };
 
 
+
+
+
 /* Statics */
 /* Transitions */
 Edward.transitions = {};
@@ -148,8 +151,8 @@ Edward.transitions.simple = function(data) {
 };
 
 Edward.transitions.crossfade = function(data) {
-    data.prevSlide.fadeOut(data.time);
-    data.newSlide.fadeIn(data.time, function() {
+    data.prevSlide.fadeOut(data.time * 2);
+    data.newSlide.fadeIn(data.time * 2, function() {
         data.slideShow.endTransition();
     });
 };
@@ -162,10 +165,88 @@ Edward.transitions.fade = function(data) {
             });
         });
     } else {
-        data.newSlide.fadeIn(data.time, function() {
+        data.newSlide.fadeIn(data.time * 2, function() {
             data.slideShow.endTransition();
         });
     }
+};
+
+Edward.transitions.rotate = function(data) {
+    // Rotating function
+    var time = data.prevSlide.length ? data.time : data.time * 2; 
+
+    var fx = function(el, deg) {
+        if (typeof(deg) === 'undefined') {
+            deg = 1;
+        }
+
+        if (deg != 0 && deg < 180) {
+            el.css('transform', 'rotate(' + deg + 'deg)');
+            deg += 10;
+            setTimeout(function() {
+                fx(el, deg)
+            }, time / 18);
+        } else {
+            el.css('transform', 'rotate(0deg)');
+        }
+    };
+
+    if (data.prevSlide.length) {
+        data.prevSlide.fadeOut(time);
+        fx(data.prevSlide);
+        setTimeout(function() {
+            data.newSlide.fadeIn(time);
+            fx(data.newSlide, -180);
+        }, time);
+    } else {
+        data.newSlide.fadeIn(time);
+        fx(data.newSlide, -180);
+    }
+
+    setTimeout(function() { data.slideShow.endTransition() }, time);
+};
+
+Edward.transitions.zoom = function(data) {
+    // Zoom function
+    var time = data.prevSlide.length ? data.time : data.time * 2; 
+
+    var zoomin = function(el, size) {
+        if (size < 4) {
+            el.css('transform', 'scale(' + size + ')');
+            size += 0.22;
+            setTimeout(function() {
+                zoomin(el, size)
+            }, time / 18);
+        } else {
+            el.css('transform', 'scale(1)');
+        }
+    };
+
+    var zoomin_zero = function(el, size) {
+        if (size < 1) {
+            el.css('transform', 'scale(' + size + ')');
+            size += 0.06;
+            setTimeout(function() {
+                zoomin_zero(el, size)
+            }, time / 18);
+        } else {
+            el.css('transform', 'scale(1)');
+        }
+    };
+
+    if (data.prevSlide.length) {
+        data.prevSlide.fadeOut(time);
+        zoomin(data.prevSlide, 1);
+        setTimeout(function() {
+            data.newSlide.fadeIn(time);
+            zoomin_zero(data.newSlide, 0);
+        }, time);
+    } else {
+        data.newSlide.fadeIn(time);
+        zoomin_zero(data.newSlide, 0);
+    }
+
+    setTimeout(function() { data.slideShow.endTransition() }, time);
 };
 
 Edward.transitions.slide = function(data) {
@@ -196,5 +277,18 @@ Edward.keyListener = function(ev) {
             break;
         default:
             break;
+    }
+};
+
+
+crap = function(deg) {
+    var el = $('article')[2];
+    $(el).fadeOut();
+
+    if (deg <= 180) {
+        $(el).css('transform', 'rotate('+ deg + 'deg)');
+        deg += 10;
+
+        setTimeout(function() { crap(deg) }, 10);
     }
 };
